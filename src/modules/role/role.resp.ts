@@ -1,8 +1,8 @@
 import { ObjectType } from 'type-graphql';
 
-import { Role } from '../../modules/role';
+import { GenericResp } from '../../global/resp/generic.resp';
 
-import { GenericResp } from './generic.resp';
+import { Role } from '.';
 
 @ObjectType()
 export class RoleResp extends GenericResp(() => [Role]) {}

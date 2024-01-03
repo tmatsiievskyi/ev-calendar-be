@@ -36,6 +36,13 @@ export class User extends BaseEntity {
   @Column()
   last_name!: string;
 
+  @Field(() => String)
+  @Column({
+    nullable: true,
+    unique: true,
+  })
+  user_name: string;
+
   @Field(() => [Role])
   @OneToMany(() => Role, (role: Role) => role.role_id)
   role: Role[];

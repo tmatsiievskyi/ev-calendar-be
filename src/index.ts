@@ -12,9 +12,13 @@ import { Connection } from 'typeorm';
 
 import { resolvers, authChecker } from '../src/global/lib/apollo';
 
+import { IContext } from './global/_interfaces';
+import { ACCESS_TOKEN_PRIVATE_KEY } from './global/config/env';
 import { dbCreateConnection } from './global/db/createConnection';
 import { ExpressServer } from './global/lib/ExpressServer';
 import { formatResp } from './global/lib/gql';
+import { verifyJwt } from './global/util/jwt.util';
+import { User } from './modules/user';
 
 dotenv.config();
 
@@ -60,6 +64,17 @@ class App extends ExpressServer {
 
     const apolloServer = new ApolloServer({
       schema,
+      context: (ctx: IContext) => {
+        const context = ctx;
+        if (ctx.req.cookies.access_token) {
+          const user = verifyJwt<User>(
+            ctx.req.cookies.access_token,
+            ACCESS_TOKEN_PRIVATE_KEY
+          );
+          user ? (context.user = user) : null;
+        }
+        return context;
+      },
       formatResponse: formatResp,
       plugins: [
         process.env.NODE_ENV === 'production'

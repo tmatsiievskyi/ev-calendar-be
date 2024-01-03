@@ -9,6 +9,12 @@ export class Role extends BaseEntity {
   readonly role_id!: number;
 
   @Field(() => String)
-  @Column()
+  @Column({
+    unique: true,
+  })
   name!: string;
+
+  @Field(() => Boolean)
+  @Column({ default: false })
+  is_default!: boolean;
 }

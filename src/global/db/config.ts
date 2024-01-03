@@ -1,5 +1,7 @@
 import { ConnectionOptions } from 'typeorm';
 
+import { Role } from '../../modules/role';
+import { User } from '../../modules/user';
 import {
   POSTGRES_DB,
   POSTGRES_HOST,
@@ -17,5 +19,5 @@ export const dbConfig: ConnectionOptions = {
   database: POSTGRES_DB,
   synchronize: true,
   logging: false,
-  entities: [__dirname + '../../modules/**/*.entity{.ts,.js}'],
+  entities: [Role, User],
 };
